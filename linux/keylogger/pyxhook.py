@@ -73,6 +73,7 @@ class HookManager(threading.Thread):
         self.record_dpy = display.Display()
 
     def run(self):
+        print("ChillerDragon's fork of GiacomoLaw/Keylogger")
         # Check if the extension is present
         if not self.record_dpy.has_extension('RECORD'):
             print_err('RECORD extension not found')
